@@ -2,11 +2,13 @@
 let points = 0;
 let clicksPerSecond = 0;
 let clickValue = 1;
+let clickCost = 10;
 
 const pointsDisplay = document.getElementById('points');
 const clickButton = document.getElementById('clickButton');
 const upgradeButton = document.getElementById('upgradeButton');
 const cpsButton = document.getElementById('cps-button');
+const clickCostDisplay = document.getElementById('upgradeCost');
 
 document.addEventListener('DOMContentLoaded', function() {
     clickButton.addEventListener('click', () => {
@@ -15,10 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     upgradeButton.addEventListener('click', () => {
-        if (points >= 10) {
-            points -= 10;
+        if (points >= clickCost) {
+            points -= clickCost;
             clickValue++;
+            clickCost = Math.floor(clickCost * 2.5);
             updatePointsDisplay();
+            updateClickCostDisplay();
         } else {
             alert("Not enough points for upgrade!");
         }
@@ -36,6 +40,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updatePointsDisplay() {
         pointsDisplay.innerText = `${points}`;
+    }
+
+    function updateClickCostDisplay() {
+        clickCostDisplay.innerText = `${clickCost}`;
     }
 
     setInterval(() => {
