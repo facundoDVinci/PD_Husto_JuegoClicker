@@ -1,0 +1,23 @@
+{
+  "name": "clicker-game",
+  "version": "1.0.0",
+  "description": "A simple clicker game where players can earn points by clicking and purchase upgrades.",
+  "main": "src/js/main.js",
+  "scripts": {
+    "start": "live-server src"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.0"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  },
+  "keywords": [
+    "clicker",
+    "game",
+    "javascript",
+    "bootstrap"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
