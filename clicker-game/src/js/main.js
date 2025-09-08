@@ -62,7 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function createMovingButton() {
         const button = document.createElement('button');
-        button.textContent = 'Catch Me!';
+        if (Math.random()*5 >4){
+            button.style.backgroundColor = 'red';
+            button.textContent = 'DONT CLICK ME!';
+        }else{
+            button.textContent = 'Catch Me!';
+        }
+        
         button.className = 'btn btn-warning moving-button';
 
         // Set random position
@@ -73,6 +79,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Add click event to button
         button.addEventListener('click', () => {
+            if (button.style.backgroundColor === 'red'){
+                points -= Math.floor(points/2); 
+                updatePointsDisplay();
+                button.remove();
+                alert("Caiste. Perdiste la mitad de tus puntos.");
+                return;
+                
+            }
             points += 5; // Add points
             updatePointsDisplay();
             button.remove(); // Remove button
@@ -81,9 +95,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove button after 3 seconds and subtract points
         setTimeout(() => {
             if (document.body.contains(button)) {
+                if (button.style.backgroundColor === 'red'){
+                    button.remove();
+                    return;
+                }else{
                 points -= Math.floor(points/3); // Subtract points
                 updatePointsDisplay();
                 button.remove();
+            }
             }
         }, 3000);
 
