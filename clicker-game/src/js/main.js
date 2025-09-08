@@ -3,12 +3,15 @@ let points = 0;
 let clicksPerSecond = 0;
 let clickValue = 1;
 let clickCost = 10;
+let clickSecondCost = 50;
 
 const pointsDisplay = document.getElementById('points');
 const clickButton = document.getElementById('clickButton');
 const upgradeButton = document.getElementById('upgradeButton');
-const cpsButton = document.getElementById('cps-button');
+const cpsButton = document.getElementById('cpsButton');
 const clickCostDisplay = document.getElementById('upgradeCost');
+const clicksPerSecondCostDisplay = document.getElementById('cpsCost');
+const cpsDisplay = document.getElementById('cps')
 
 document.addEventListener('DOMContentLoaded', function() {
     clickButton.addEventListener('click', () => {
@@ -24,17 +27,20 @@ document.addEventListener('DOMContentLoaded', function() {
             updatePointsDisplay();
             updateClickCostDisplay();
         } else {
-            alert("Not enough points for upgrade!");
+            alert("No tienes suficientes puntos para comprar una mejora!");
         }
     });
 
     cpsButton.addEventListener('click', () => {
-        if (points >= 20) {
-            points -= 20;
+        if (points >= clickSecondCost) {
+            points -= clickSecondCost;
             clicksPerSecond++;
+            clickSecondCost = Math.floor(clickSecondCost * 2.5);
             updatePointsDisplay();
+            updateClickPerSecondCostDisplay();
+            updatecpsDisplay();
         } else {
-            alert("Not enough points for CPS purchase!");
+            alert("No tienes suficientes puntos para comprar una mejora");
         }
     });
 
@@ -44,6 +50,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateClickCostDisplay() {
         clickCostDisplay.innerText = `${clickCost}`;
+    }
+
+    function updateClickPerSecondCostDisplay() {
+        clicksPerSecondCostDisplay.innerText = `${clickSecondCost}`;
+    }
+
+    function updatecpsDisplay() {
+        cpsDisplay.innerText = `${clicksPerSecond}`;
     }
 
     setInterval(() => {
