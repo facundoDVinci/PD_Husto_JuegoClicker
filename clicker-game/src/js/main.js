@@ -60,6 +60,39 @@ document.addEventListener('DOMContentLoaded', function() {
         cpsDisplay.innerText = `${clicksPerSecond}`;
     }
 
+    function createMovingButton() {
+        const button = document.createElement('button');
+        button.textContent = 'Catch Me!';
+        button.className = 'btn btn-warning moving-button';
+
+        // Set random position
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 50);
+        button.style.left = `${x}px`;
+        button.style.top = `${y}px`;
+
+        // Add click event to button
+        button.addEventListener('click', () => {
+            points += 5; // Add points
+            updatePointsDisplay();
+            button.remove(); // Remove button
+        });
+
+        // Remove button after 3 seconds and subtract points
+        setTimeout(() => {
+            if (document.body.contains(button)) {
+                points -= Math.floor(points/3); // Subtract points
+                updatePointsDisplay();
+                button.remove();
+            }
+        }, 3000);
+
+        document.body.appendChild(button);
+    }
+
+    // Generate a moving button every 2 seconds
+    setInterval(createMovingButton, 2000);
+
     setInterval(() => {
         points += clicksPerSecond;
         updatePointsDisplay();
