@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     clickButton.addEventListener('click', () => {
         points += clickValue;
         updatePointsDisplay();
+        checkAchievements();
     });
 
     upgradeButton.addEventListener('click', () => {
@@ -32,6 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
             updatePointsDisplay();
             updateClickCostDisplay();
             updateClicksValueDisplay();
+            upgrades++;
+            checkAchievements();
         } else {
             alert("No tienes suficientes puntos para comprar una mejora!");
         }
@@ -45,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
             updatePointsDisplay();
             updateClickPerSecondCostDisplay();
             updatecpsDisplay();
+            cps++;
+            checkAchievements();
         } else {
             alert("No tienes suficientes puntos para comprar una mejora");
         }
@@ -63,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
             updatePointsDisplay();
             updateClickCostDisplay();
             updateClickPerSecondCostDisplay();
+            lessCostBought = true;
+            checkAchievements();
         }
         });
             
@@ -141,10 +148,60 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Generate a moving button every 2 seconds
-    setInterval(createMovingButton, 2000);
+    setInterval(createMovingButton, 5000);
 
     setInterval(() => {
         points += clicksPerSecond;
         updatePointsDisplay();
     }, 1000);
 });
+
+// Definición de logros
+const achievements = [
+  { id: 'firstClick', name: '¡Primer Click!', desc: 'Haz tu primer click.', unlocked: false, check: () => points >= 1 },
+  { id: 'tenClicks', name: '¡10 Diamantes!', desc: 'Consigue 10 diamantes.', unlocked: false, check: () => points >= 10 },
+  { id: 'hundredClicks', name: '¡100 Diamantes!', desc: 'Consigue 100 diamantes.', unlocked: false, check: () => points >= 100 },
+  { id: 'upgradeBought', name: '¡Mejora Comprada!', desc: 'Compra tu primera mejora.', unlocked: false, check: () => upgrades > 0 },
+  { id: 'cpsBought', name: '¡AutoClick!', desc: 'Compra tu primer click por segundo.', unlocked: false, check: () => cps > 0 },
+  { id: 'lessCostBought', name: '¡Costos Reducidos!', desc: 'Compra la reducción de costos.', unlocked: false, check: () => lessCostBought },
+];
+
+// Variables para logros
+let upgrades = 0;
+let cps = 0;
+let lessCostBought = false;
+
+// Actualiza la lista de logros en el modal
+function updateAchievementsList() {
+  const list = document.getElementById('achievementsList');
+  list.innerHTML = '';
+  achievements.forEach(a => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    li.innerHTML = `
+      <span>
+        <strong>${a.name}</strong><br>
+        <small>${a.desc}</small>
+      </span>
+      <span class="badge rounded-pill ${a.unlocked ? 'bg-success' : 'bg-secondary'}">
+        ${a.unlocked ? '¡Obtenido!' : 'Bloqueado'}
+      </span>
+    `;
+    list.appendChild(li);
+  });
+}
+
+// Chequea y desbloquea logros
+function checkAchievements() {
+  achievements.forEach(a => {
+    if (!a.unlocked && a.check()) {
+      a.unlocked = true;
+      // Opcional: notificación visual
+      // alert(`¡Logro desbloqueado: ${a.name}!`);
+    }
+  });
+  updateAchievementsList();
+}
+
+// Actualiza la lista de logros al abrir el modal
+document.getElementById('achievementsModal').addEventListener('show.bs.modal', updateAchievementsList);
