@@ -4,6 +4,8 @@ let clicksPerSecond = 0;
 let clickValue = 1;
 let clickCost = 10;
 let clickSecondCost = 50;
+let lessCost= 0;
+let LCCost= 500;
 
 const pointsDisplay = document.getElementById('points');
 const clickButton = document.getElementById('clickButton');
@@ -12,6 +14,9 @@ const cpsButton = document.getElementById('cpsButton');
 const clickCostDisplay = document.getElementById('upgradeCost');
 const clicksPerSecondCostDisplay = document.getElementById('cpsCost');
 const cpsDisplay = document.getElementById('cps')
+const clicksValueDisplay = document.getElementById('pointsPerClick');
+const LessCostButton = document.getElementById('LessCost');
+const LessCostDisplay = document.getElementById('LCCost');
 
 document.addEventListener('DOMContentLoaded', function() {
     clickButton.addEventListener('click', () => {
@@ -26,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
             clickCost = Math.floor(clickCost * 2.5);
             updatePointsDisplay();
             updateClickCostDisplay();
+            updateClicksValueDisplay();
         } else {
             alert("No tienes suficientes puntos para comprar una mejora!");
         }
@@ -44,6 +50,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    LessCostButton.addEventListener('click', () => {
+        if (points >= LCCost) {
+            points -= LCCost;
+            lessPoints= lessCost + 15;
+            LCCost = Math.floor(LCCost * 3);
+            updateLessCostDisplay();
+            clickCost = Math.floor(clickCost - lessPoints);
+            clickSecondCost = Math.floor(clickSecondCost - lessPoints);
+            if (clickCost < 1) clickCost = 1;
+            if (clickSecondCost < 1) clickSecondCost = 1;
+            updatePointsDisplay();
+            updateClickCostDisplay();
+            updateClickPerSecondCostDisplay();
+        }
+        });
+            
+
     function updatePointsDisplay() {
         pointsDisplay.innerText = `${points}`;
     }
@@ -58,6 +81,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updatecpsDisplay() {
         cpsDisplay.innerText = `${clicksPerSecond}`;
+    }
+
+    function updateClicksValueDisplay() {
+        clicksValueDisplay.innerText = `${clickValue}`;
+    }
+
+    function updateLessCostDisplay() {
+        LessCostDisplay.innerText = `${LCCost}`;
     }
 
     function createMovingButton() {

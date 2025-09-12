@@ -8,17 +8,21 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- IDEA: que el fondo se pueda clickear con un boton que se mueva.-->
     <div class="container text-center mt-5">
         <h1>Clicker Game</h1>
-        <button id="clickButton" class="btn btn-primary btn-lg">Click Me!</button>
-        <h2 class="mt-3">Points: <span id="points">0</span></h2>
+        <!-- <button id="clickButton" class="btn btn-primary btn-lg">Click Me!</button> -->
+        <figure>
+            <img id="clickButton" src="img/piedra.png" alt="">
+        </figure>
+        <h2 class="mt-3">Diamantes: <span id="points">0</span></h2>
         <div class="mt-4">
             <h3>Upgrades</h3>
-            <button id="upgradeButton" class="btn btn-success">Upgrade Click (Cost: <span id="upgradeCost">10</span> points)</button>
-            <h3 class="mt-4">Clicks Per Second</h3>
-            <button id="cpsButton" class="btn btn-warning">Buy Clicks Per Second (Cost: <span id="cpsCost">50</span> points)</button>
-            <h4 class="mt-3">Clicks Per Second: <span id="cps">0</span></h4>
+            <button id="upgradeButton" class="btn btn-success">Mejorar Pico (Cost: <span id="upgradeCost">10</span> points)</button>
+            <h4 class="mt-4">Puntos por click: <span id="pointsPerClick">1</span></h3>
+            <button id="cpsButton" class="btn btn-warning">Comprar puntos por segundo (Cost: <span id="cpsCost">50</span> points)</button>
+            <h4 class="mt-3">Clicks por segundo: <span id="cps">0</span></h3>
+            
+            <button id="LessCost" class="btn btn-success">Reducir costos de mejoras (Cost: <span id="LCCost">500</span> points)</button>
         </div>
     </div>
     <script src="js/main.js"></script>
