@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
     LessCostButton.addEventListener('click', () => {
         if (points >= LCCost) {
             points -= LCCost;
-            lessPoints= lessCost + 15;
-            LCCost = Math.floor(LCCost * 3);
+            lessPoints= lessCost + 50;
+            LCCost = Math.floor(LCCost * 1.5);
             updateLessCostDisplay();
             clickCost = Math.floor(clickCost - lessPoints);
             clickSecondCost = Math.floor(clickSecondCost - lessPoints);
@@ -102,9 +102,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const button = document.createElement('button');
         if (Math.random()*5 >4){
             button.style.backgroundColor = 'red';
-            button.textContent = 'DONT CLICK ME!';
+            button.style.borderColor = 'darkred';
+            button.textContent = 'No me hagas Click!';
         }else{
-            button.textContent = 'Catch Me!';
+            button.textContent = 'Clickeame!';
         }
         
         button.className = 'btn btn-warning moving-button';
@@ -137,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.remove();
                     return;
                 }else{
-                points -= Math.floor(points/3); // Subtract points
+                points -= Math.floor(points/1.5); // Subtract points
                 updatePointsDisplay();
                 button.remove();
             }
@@ -148,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Generate a moving button every 2 seconds
-    setInterval(createMovingButton, 5000);
+    setInterval(createMovingButton, 6000);
 
     setInterval(() => {
         points += clicksPerSecond;
@@ -161,9 +162,15 @@ const achievements = [
   { id: 'firstClick', name: '¡Primer Click!', desc: 'Haz tu primer click.', unlocked: false, check: () => points >= 1 },
   { id: 'tenClicks', name: '¡10 Diamantes!', desc: 'Consigue 10 diamantes.', unlocked: false, check: () => points >= 10 },
   { id: 'hundredClicks', name: '¡100 Diamantes!', desc: 'Consigue 100 diamantes.', unlocked: false, check: () => points >= 100 },
+  { id: 'thousandClicks', name: '¡1000 Diamantes!', desc: 'Consigue 1000 diamantes.', unlocked: false, check: () => points >= 1000 },
   { id: 'upgradeBought', name: '¡Mejora Comprada!', desc: 'Compra tu primera mejora.', unlocked: false, check: () => upgrades > 0 },
+  { id: 'upgradeBought2', name: '¡Quiero maaaas!', desc: 'Compra 5 mejoras.', unlocked: false, check: () => upgrades > 4 },
+  { id: 'upgradeBought3', name: '¡El pico mas fuerte!', desc: 'Compra 10 mejoras.', unlocked: false, check: () => upgrades > 9 },
   { id: 'cpsBought', name: '¡AutoClick!', desc: 'Compra tu primer click por segundo.', unlocked: false, check: () => cps > 0 },
+  { id: 'cpsBought2', name: '¡No quiero laburo!', desc: 'Compra 5 clicks por segundo.', unlocked: false, check: () => cps > 4 },
+  { id: 'cpsBought3', name: '¡Bien vago en un lunes!', desc: 'Compra 10 clicks por segundo.', unlocked: false, check: () => cps > 9 },
   { id: 'lessCostBought', name: '¡Costos Reducidos!', desc: 'Compra la reducción de costos.', unlocked: false, check: () => lessCostBought },
+  { id: 'profe_aprobame_porfa', name: 'Se me acabaron las ideas para logros', desc: 'Obten todos los logros', unlocked: false, check: () => achievements.every(a => a.unlocked) },
 ];
 
 // Variables para logros
@@ -197,7 +204,7 @@ function checkAchievements() {
     if (!a.unlocked && a.check()) {
       a.unlocked = true;
       // Opcional: notificación visual
-      // alert(`¡Logro desbloqueado: ${a.name}!`);
+      alert(`¡Logro desbloqueado: ${a.name}!`);
     }
   });
   updateAchievementsList();

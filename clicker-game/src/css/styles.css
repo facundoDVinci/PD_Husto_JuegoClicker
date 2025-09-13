@@ -21,6 +21,11 @@ figure #clickButton {
     cursor: pointer;
     transition: transform 0.1s;
     transform: scale(0.9);
+    border: 1pt #000000;
+}
+
+figure #clickButton:active {
+    transform: scale(0.8);
 }
 
 .button {
