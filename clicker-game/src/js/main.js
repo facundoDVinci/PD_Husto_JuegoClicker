@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.remove();
                     return;
                 }else{
-                points -= Math.floor(points/1.5); // Subtract points
+                points -= Math.floor(points/3.5); // Subtract points
                 updatePointsDisplay();
                 button.remove();
             }
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Generate a moving button every 2 seconds
-    setInterval(createMovingButton, 6000);
+    setInterval(createMovingButton, 8000);
 
     setInterval(() => {
         points += clicksPerSecond;
@@ -159,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Definición de logros
 const achievements = [
-  { id: 'firstClick', name: '¡Primer Click!', desc: 'Haz tu primer click.', unlocked: false, check: () => points >= 1 },
   { id: 'tenClicks', name: '¡10 Diamantes!', desc: 'Consigue 10 diamantes.', unlocked: false, check: () => points >= 10 },
   { id: 'hundredClicks', name: '¡100 Diamantes!', desc: 'Consigue 100 diamantes.', unlocked: false, check: () => points >= 100 },
   { id: 'thousandClicks', name: '¡1000 Diamantes!', desc: 'Consigue 1000 diamantes.', unlocked: false, check: () => points >= 1000 },
