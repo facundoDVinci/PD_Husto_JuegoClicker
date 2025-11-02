@@ -71,3 +71,11 @@ figure #clickButton:active {
   position: absolute;
   z-index: 10;
 }
+
+.enemy-container img {
+  transition: transform 0.1s;
+}
+
+.enemy-container img:active {
+  transform: scale(0.9);
+}
