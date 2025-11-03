@@ -161,43 +161,6 @@ function ClickerGame() {
 
   }, [points, damage]);
 
-
-  useEffect(() => {
-    const createMovingButton = () => {
-      const b = document.createElement("button");
-      const trap = Math.random() * 5 > 4;
-      b.textContent = trap ? "No me hagas Click!" : "Clickeame!";
-      b.className = "btn btn-warning moving-button";
-      if (trap) {
-        b.style.backgroundColor = "red";
-        b.style.borderColor = "darkred";
-      }
-      b.style.left = `${Math.random() * (window.innerWidth - 120)}px`;
-      b.style.top = `${Math.random() * (window.innerHeight - 80)}px`;
-
-      b.onclick = () => {
-        if (trap) {
-          setPoints((p) => Math.max(0, Math.floor(p / 2)));
-          alert("Caiste. Perdiste la mitad de tus puntos.");
-        } else {
-          setPoints((p) => p + 5);
-        }
-        b.remove();
-      };
-
-      document.body.appendChild(b);
-      setTimeout(() => {
-        if (document.body.contains(b)) {
-          if (!trap) setPoints((p) => Math.max(0, p - Math.floor(p / 3.5)));
-          b.remove();
-        }
-      }, 3000);
-    };
-
-    const id = setInterval(createMovingButton, 8000);
-    return () => clearInterval(id);
-  }, []);
-
  
   const resetProgress = () => {
     if (!window.confirm("¿Borrar todo el progreso?")) return;

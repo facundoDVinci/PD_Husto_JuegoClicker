@@ -11,6 +11,12 @@ function Home() {
       <button className="btn btn-success btn-lg" onClick={() => navigate("/game")}>
         Jugar
       </button>
+      <button className="btn btn-success btn-lg" onClick={() => navigate("/about")}>
+        Acerca del Proyecto
+      </button>
+      <button className="btn btn-success btn-lg" onClick={() => navigate("/about")}>
+        Contacto
+      </button>
     </div>
   );
 }
