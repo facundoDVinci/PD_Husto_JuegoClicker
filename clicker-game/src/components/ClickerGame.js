@@ -15,6 +15,9 @@ function ClickerGame() {
   const [damage, setDamage] = useState(() => Number(localStorage.getItem("damage")) || 1);
   const [attackCost, setAttackCost] = useState(() => Number(localStorage.getItem("attackCost")) || 15);
 
+  const [kills, setKills] = useState(() => Number(localStorage.getItem("kills")) || 0);
+
+
 
   const defaultEnemy = { name: "Slime", hp: 20, maxHp: 20, reward: 10, img: "/img/slime.png" };
   const [enemy, setEnemy] = useState(() => {
@@ -43,6 +46,7 @@ function ClickerGame() {
     localStorage.setItem("attackCost", attackCost);
     localStorage.setItem("enemy", JSON.stringify(enemy));
     localStorage.setItem("enemyHP", enemyHP);
+    localStorage.setItem("kills", kills);
   }, [
     points,
     clickValue,
@@ -55,6 +59,7 @@ function ClickerGame() {
     attackCost,
     enemy,
     enemyHP,
+    kills,
   ]);
 
 
@@ -144,17 +149,52 @@ function ClickerGame() {
   };
 
 
+
   const achievementsList = [
-    { id: "ten", name: "¡10 Diamantes!", check: (p, d) => p >= 10 },
-    { id: "hundred", name: "¡100 Diamantes!", check: (p, d) => p >= 100 },
-    { id: "sword5", name: "Espada +5", check: (p, d) => d >= 5 },
-    { id: "sword10", name: "Espada +10", check: (p, d) => d >= 10 },
+   
+    { id: "ten", name: "¡10 Diamantes!", desc: "Consigue 10 diamantes.", check: (p, d) => p >= 10 },
+    { id: "hundred", name: "¡100 Diamantes!", desc: "Consigue 100 diamantes.", check: (p, d) => p >= 100 },
+    { id: "thousand", name: "¡1000 Diamantes!", desc: "Consigue 1000 diamantes.", check: (p, d) => p >= 1000 },
+    { id: "rich", name: "¡Millonario!", desc: "Consigue 10,000 diamantes.", check: (p, d) => p >= 10000 },
+
+    
+    { id: "sword5", name: "Espada de Hierro", desc: "Mejora la espada a nivel +5.", check: (p, d) => d >= 5 },
+    { id: "sword10", name: "Espada de Acero", desc: "Mejora la espada a nivel +10.", check: (p, d) => d >= 10 },
+    { id: "sword20", name: "Espada Legendaria", desc: "Mejora la espada a nivel +20.", check: (p, d) => d >= 20 },
+
+    
+    { id: "auto1", name: "Autoclicker", desc: "Compra tu primer punto por segundo.", check: (p, d, s, cps) => cps >= 1 },
+    { id: "auto5", name: "Productor", desc: "Llega a 5 puntos por segundo.", check: (p, d, s, cps) => cps >= 5 },
+    { id: "auto10", name: "Fábrica de diamantes", desc: "Llega a 10 puntos por segundo.", check: (p, d, s, cps) => cps >= 10 },
+
+    
+    { id: "pick3", name: "Pico mejorado", desc: "Mejora el pico 3 veces.", check: (p, d, s, cps, clickValue) => clickValue >= 4 },
+    { id: "pick10", name: "Pico maestro", desc: "Mejora el pico 10 veces.", check: (p, d, s, cps, clickValue) => clickValue >= 11 },
+
+    
+    { id: "enemy1", name: "Primer enemigo", desc: "Derrota tu primer enemigo.", check: (p, d, s, cps, cv, kills) => kills >= 1 },
+    { id: "enemy5", name: "Cazador", desc: "Derrota 5 enemigos.", check: (p, d, s, cps, cv, kills) => kills >= 5 },
+    { id: "enemy20", name: "Destructor de mundos", desc: "Derrota 20 enemigos.", check: (p, d, s, cps, cv, kills) => kills >= 20 },
+
+    
+    { id: "collector", name: "Maestro del progreso", desc: "Desbloquea todos los demás logros.", check: (p, d, s, cps, cv, kills, all) => all },
   ];
 
+
   const checkAchievements = (maybePoints = points) => {
-    const unlocked = achievementsList.filter((a) => a.check(maybePoints, damage));
-    setAchievements(unlocked);
-  };
+  const unlocked = achievementsList.filter((a) =>
+    a.check(maybePoints, damage, null, clicksPerSecond, clickValue, kills, false)
+  );
+
+  
+  const allUnlocked = unlocked.length >= achievementsList.length - 1;
+  if (allUnlocked && !unlocked.find(a => a.id === "collector")) {
+    unlocked.push(achievementsList.find(a => a.id === "collector"));
+  }
+
+  setAchievements(unlocked);
+};
+
 
   useEffect(() => {
     checkAchievements(points);
@@ -195,6 +235,7 @@ function ClickerGame() {
             if (newHp <= 0) {
               setPoints((p) => p + enemy.reward);
               spawnNextEnemy(points + enemy.reward);
+              setKills((k) => k + 1);
             } else {
               setEnemyHP(newHp);
             }
