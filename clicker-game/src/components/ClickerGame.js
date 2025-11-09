@@ -215,6 +215,7 @@ function ClickerGame() {
     setAttackCost(15);
     setEnemy(defaultEnemy);
     setEnemyHP(defaultEnemy.hp);
+    setKills(0);
     localStorage.clear();
   };
 
